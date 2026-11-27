@@ -1,9 +1,12 @@
-import { FlatList, Text } from 'react-native';
+import { useState } from 'react';
+import { FlatList, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getExercises } from '../services/exerciseService';
+import { searchExercises } from '../services/exerciseService';
 
 export default function ExerciseSelection() {
-  const exercises = getExercises();
+  const [search, setSearch] = useState('');
+
+const exercises = searchExercises(search);
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
@@ -11,6 +14,23 @@ export default function ExerciseSelection() {
         Select Exercise
       </Text>
 
+    <TextInput
+        placeholder="Search exercises..."
+        placeholderTextColor="gray"
+        value={search}
+        onChangeText={setSearch}
+    style={{
+        height: 45,
+        borderWidth: 1,
+        borderColor: 'black',
+        backgroundColor: 'white',
+        padding: 10,
+        marginVertical: 10,
+        color: 'black',
+        fontSize: 16,
+        }}
+    />
+    
       <Text style={{ color: 'black' }}>
         Total exercises: {exercises.length}
       </Text>
