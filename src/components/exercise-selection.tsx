@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FlatList, Pressable, ScrollView, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { searchExercises } from "../services/exerciseService";
-import type { Exercise } from '../types/exercise';
+import type { Exercise } from "../types/exercise";
 import { Button } from 'react-native';
 
 // Define the body parts for filtering exercises
@@ -38,6 +38,7 @@ export default function ExerciseSelection({
   return (
     <SafeAreaView style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
       <Text style={{ color: "black", fontSize: 24 }}>Select Exercise</Text>
+      {onCancel && <Button title="Back to Routine" onPress={onCancel} />}
 
       <TextInput
         placeholder="Search exercises..."
@@ -88,10 +89,13 @@ export default function ExerciseSelection({
       </Text>
 
       <FlatList
+        keyboardShouldPersistTaps="handled"
         data={exercises}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Text style={{ color: "black", padding: 10 }}>{item.name}</Text>
+          <Pressable onPress={() => onSelectExercise?.(item)}>
+            <Text style={{ color: "black", padding: 10 }}>{item.name}</Text>
+          </Pressable>
         )}
       />
 
