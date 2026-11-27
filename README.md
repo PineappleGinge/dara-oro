@@ -41,7 +41,7 @@ RepDB was selected because it provides exercise information without requiring an
 
 Source: https://github.com/RepDB/exercise-dataset
 
-Exercise data by RepDB.
+Exercise data by [RepDB](https://repdb.co).
 
 ## Database
 
