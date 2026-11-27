@@ -1,56 +1,64 @@
-# Welcome to your Expo app 👋
+# IronQuest
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Project Overview
 
-## Get started
+IronQuest is a mobile fitness progress tracking application being developed as a final-year Software Development project at Atlantic Technological University.
 
-1. Install dependencies
+The application is designed for individuals who perform resistance training, regardless of their experience level. Its purpose is to allow users to create workout routines, record their workouts and track their progress over time.
 
-   ```bash
-   npm install
-   ```
+## Planned Features
 
-2. Start the app
+- Create, edit and delete workout routines.
+- Select exercises from an existing exercise dataset.
+- View exercise illustrations and instructions.
+- Record sets, repetitions and weight lifted.
+- Track individual exercise progression through graphs.
+- Calculate percentage changes between workout sessions.
+- Calculate and compare total workout volume.
+- Create and track personal fitness goals.
+- Export workout data.
+- Import and restore workout data when changing devices.
 
-   ```bash
-   npx expo start
-   ```
+## Technologies and Versions
 
-In the output, you'll find options to open the app in a
+| Technology | Version |
+|---|---|
+| Node.js | 24.12.0 |
+| npm | 11.10.0 |
+| Expo CLI | 58.1.21 |
+| Expo SDK | ~58.0.26 |
+| Expo Router | ~58.0.32 |
+| React | 19.3.0 |
+| React Native | 0.88.1 |
+| TypeScript | ~6.0.3 |
+| Application | 1.0.0 |
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Exercise Dataset
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+IronQuest will use the RepDB exercise dataset to provide exercise names, illustrations, instructions, muscle groups and equipment information.
 
-## Get a fresh project
+RepDB was selected because it provides exercise information without requiring an API key or continuous internet access. Exercise illustrations will also assist users who are unfamiliar with particular exercises.
 
-When you're ready, run:
+Source: https://github.com/RepDB/exercise-dataset
 
-```bash
-npm run reset-project
-```
+Exercise data by RepDB.
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Database
 
-### Other setup steps
+SQLite is the selected database technology for IronQuest.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+User data will be stored locally on the user's device, allowing the application to function without an internet connection or user accounts.
 
-## Learn more
+## Running the Application
 
-To learn more about developing your project with Expo, look at the following resources:
+Install the required dependencies:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+`npm install`
 
-## Join the community
+Start the Expo development server:
 
-Join our community of developers creating universal apps.
+`npx expo start`
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Scan the generated QR code using Expo Go to run the application on a mobile device.
+
+
