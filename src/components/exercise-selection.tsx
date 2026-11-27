@@ -19,6 +19,11 @@ const bodyParts = [
   { label: "Full Body", value: "full_body" },
 ];
 
+interface ExerciseSelectionProps {
+  onSelectExercise?: (exercise: Exercise) => void;
+  onCancel?: () => void;
+}
+
 export default function ExerciseSelection() {
   const [search, setSearch] = useState("");
   const [bodyPart, setBodyPart] = useState("all");
