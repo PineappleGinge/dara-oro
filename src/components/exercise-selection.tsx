@@ -24,7 +24,10 @@ interface ExerciseSelectionProps {
   onCancel?: () => void;
 }
 
-export default function ExerciseSelection() {
+export default function ExerciseSelection({
+  onSelectExercise,
+  onCancel,
+}: ExerciseSelectionProps) {
   const [search, setSearch] = useState("");
   const [bodyPart, setBodyPart] = useState("all");
 
