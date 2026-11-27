@@ -14,6 +14,7 @@ import { Colors, MaxContentWidth, Spacing } from '@/constants/theme';
 import { ExternalLink } from './external-link';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
+import type { ComponentProps } from 'react';
 
 export default function AppTabs() {
   return (
