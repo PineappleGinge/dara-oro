@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FlatList, Pressable, ScrollView, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { searchExercises } from "../services/exerciseService";
+import type { Exercise } from '../types/exercise';
+import { Button } from 'react-native';
 
 // Define the body parts for filtering exercises
 const bodyParts = [
