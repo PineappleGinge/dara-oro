@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getExerciseById } from "../services/exerciseService";
 
 import {
   createRoutine,
+  getRoutineExercises,
   getRoutines,
   type Routine,
+  type RoutineExercise,
 } from "../services/routineService";
 import type { Exercise } from "../types/exercise";
 import ExerciseSelection from "./exercise-selection";
@@ -16,6 +19,11 @@ export default function CreateRoutineScreen() {
   const [showExercises, setShowExercises] = useState(false);
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [saving, setSaving] = useState(false);
+  const [expandedRoutine, setExpandedRoutine] = useState<number | null>(null);
+  const [routineExercises, setRoutineExercises] = useState<RoutineExercise[]>(
+    [],
+  );
+  const [loadingExercises, setLoadingExercises] = useState(false);
 
   // Fetch existing routines on component mount
   async function loadRoutines() {
@@ -48,6 +56,31 @@ export default function CreateRoutineScreen() {
     setSelectedExercises((previous) =>
       previous.filter((exercise) => exercise.id !== id),
     );
+  }
+
+  // Display or hide the exercises in a saved routine
+  async function toggleRoutine(routineId: number) {
+    if (loadingExercises) return;
+
+    if (expandedRoutine === routineId) {
+      setExpandedRoutine(null);
+      setRoutineExercises([]);
+      return;
+    }
+
+    setLoadingExercises(true);
+
+    try {
+      const exercises = await getRoutineExercises(routineId);
+
+      setRoutineExercises(exercises);
+      setExpandedRoutine(routineId);
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Could not load routine exercises");
+    } finally {
+      setLoadingExercises(false);
+    }
   }
 
   // Save the routine to the database
@@ -91,7 +124,6 @@ export default function CreateRoutineScreen() {
     }
   }
 
-  // Open exercise selection
   // Open exercise selection
   if (showExercises) {
     return (
@@ -154,9 +186,21 @@ export default function CreateRoutineScreen() {
         </Text>
 
         {routines.map((routine) => (
-          <Text key={routine.routineId} style={{ color: "black", padding: 10 }}>
-            {routine.name}
-          </Text>
+          <View key={routine.routineId} style={{ marginVertical: 5 }}>
+            <Button
+              title={routine.name}
+              onPress={() => toggleRoutine(routine.routineId)}
+              disabled={loadingExercises}
+            />
+
+            {expandedRoutine === routine.routineId &&
+              routineExercises.map((item) => (
+                <Text key={item.id} style={{ color: "black", padding: 10 }}>
+                  {item.exerciseOrder}.{" "}
+                  {getExerciseById(item.exerciseId)?.name ?? "Unknown Exercise"}
+                </Text>
+              ))}
+          </View>
         ))}
       </ScrollView>
     </SafeAreaView>
