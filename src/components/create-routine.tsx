@@ -3,9 +3,9 @@ import { Alert, Button, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
-    createRoutine,
-    getRoutines,
-    type Routine,
+  createRoutine,
+  getRoutines,
+  type Routine,
 } from "../services/routineService";
 import type { Exercise } from "../types/exercise";
 import ExerciseSelection from "./exercise-selection";
@@ -77,12 +77,21 @@ export default function CreateRoutineScreen() {
       await loadRoutines();
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", "Failed to save routine. Please try again.");
+
+      if (
+        error instanceof Error &&
+        error.message === "A routine with this name already exists"
+      ) {
+        Alert.alert("Duplicate Routine", error.message);
+      } else {
+        Alert.alert("Error", "Could not save routine");
+      }
     } finally {
       setSaving(false);
     }
   }
 
+  // Open exercise selection
   // Open exercise selection
   if (showExercises) {
     return (
