@@ -77,3 +77,13 @@ export async function getRoutineExercises(
     routineId,
   );
 }
+
+// Delete a saved routine
+export async function deleteRoutine(routineId: number) {
+  const db = await initializeDatabase();
+
+  await db.runAsync(
+    "DELETE FROM Routine WHERE routineId = ?",
+    routineId,
+  );
+}

@@ -5,6 +5,7 @@ import { getExerciseById } from "../services/exerciseService";
 
 import {
   createRoutine,
+  deleteRoutine,
   getRoutineExercises,
   getRoutines,
   type Routine,
@@ -81,6 +82,37 @@ export default function CreateRoutineScreen() {
     } finally {
       setLoadingExercises(false);
     }
+  }
+
+  // Confirm and delete a saved routine
+  function handleDeleteRoutine(routineId: number) {
+    Alert.alert(
+      "Delete Routine",
+      "Are you sure you want to delete this routine?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteRoutine(routineId);
+
+              setExpandedRoutine(null);
+              setRoutineExercises([]);
+
+              await loadRoutines();
+            } catch (error) {
+              console.error(error);
+              Alert.alert("Error", "Could not delete routine");
+            }
+          },
+        },
+      ],
+    );
   }
 
   // Save the routine to the database
@@ -200,6 +232,15 @@ export default function CreateRoutineScreen() {
                   {getExerciseById(item.exerciseId)?.name ?? "Unknown Exercise"}
                 </Text>
               ))}
+
+            {expandedRoutine === routine.routineId && (
+              <Button
+                title="Delete Routine"
+                color="red"
+                disabled={saving || loadingExercises}
+                onPress={() => handleDeleteRoutine(routine.routineId)}
+              />
+            )}
           </View>
         ))}
       </ScrollView>
