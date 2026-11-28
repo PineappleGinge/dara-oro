@@ -1,4 +1,4 @@
-import { initializeDatabase } from '../database/database';
+import { initializeDatabase } from "../database/database";
 
 export interface Routine {
   routineId: number;
@@ -14,24 +14,30 @@ export interface RoutineExercise {
 }
 
 // Create a new routine
-export async function createRoutine(
-  name: string,
-  exerciseIds: string[]
-) {
+export async function createRoutine(name: string, exerciseIds: string[]) {
   if (!name.trim()) {
-    throw new Error('Routine name is required');
+    throw new Error("Routine name is required");
   }
 
   if (exerciseIds.length === 0) {
-    throw new Error('At least one exercise is required');
+    throw new Error("At least one exercise is required");
   }
 
   const db = await initializeDatabase();
 
   await db.withTransactionAsync(async () => {
+    const existingRoutine = await db.getFirstAsync<Routine>(
+      "SELECT * FROM Routine WHERE name = ? COLLATE NOCASE",
+      name.trim(),
+    );
+
+    if (existingRoutine) {
+      throw new Error("A routine with this name already exists");
+    }
+
     const result = await db.runAsync(
-      'INSERT INTO Routine (name) VALUES (?)',
-      name.trim()
+      "INSERT INTO Routine (name) VALUES (?)",
+      name.trim(),
     );
 
     const routineId = result.lastInsertRowId;
@@ -43,7 +49,7 @@ export async function createRoutine(
          VALUES (?, ?, ?)`,
         routineId,
         exerciseIds[i],
-        i + 1
+        i + 1,
       );
     }
   });
@@ -54,13 +60,13 @@ export async function getRoutines(): Promise<Routine[]> {
   const db = await initializeDatabase();
 
   return db.getAllAsync<Routine>(
-    'SELECT * FROM Routine ORDER BY routineId DESC'
+    "SELECT * FROM Routine ORDER BY routineId DESC",
   );
 }
 
 // Retrieve exercises belonging to a routine
 export async function getRoutineExercises(
-  routineId: number
+  routineId: number,
 ): Promise<RoutineExercise[]> {
   const db = await initializeDatabase();
 
@@ -68,6 +74,6 @@ export async function getRoutineExercises(
     `SELECT * FROM RoutineExercise
      WHERE routineId = ?
      ORDER BY exerciseOrder`,
-    routineId
+    routineId,
   );
 }
